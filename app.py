@@ -9,7 +9,7 @@ from tensorflow.keras.models import load_model
 app = Flask(__name__)
 
 # === Load model and encoders ===
-model_path = "model/advanced_melody_to_chord_model.h5"
+model_path = "model/model_ki_mkc.h5"
 note_encoder_path = "model/note_encoder.pkl"
 chord_encoder_path = "model/chord_encoder.pkl"
 
