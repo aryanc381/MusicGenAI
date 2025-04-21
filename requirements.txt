@@ -1,4 +1,4 @@
-Flask
+Flask==2.2.5
 music21
-tensorflow
-scikit-learn
+tensorflow==2.11.0
+scikit-learn==1.1.3
