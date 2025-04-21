@@ -9,9 +9,9 @@ from tensorflow.keras.models import load_model
 app = Flask(__name__)
 
 # === Load model and encoders ===
-model_path = "model\\advanced_melody_to_chord_model.h5"
-note_encoder_path = "model\\note_encoder.pkl"
-chord_encoder_path = "model\\chord_encoder.pkl"
+model_path = "model/advanced_melody_to_chord_model.h5"
+note_encoder_path = "model/note_encoder.pkl"
+chord_encoder_path = "model/chord_encoder.pkl"
 
 model = load_model(model_path)
 with open(note_encoder_path, "rb") as f:
@@ -87,5 +87,7 @@ def generate():
         response.headers["X-Chords"] = ", ".join(predicted_chords)
         return response
 
+# === Required for Render ===
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # default to 5000 locally
+    app.run(debug=False, host="0.0.0.0", port=port)
