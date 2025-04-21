@@ -29,11 +29,9 @@ def generate():
     melody_input = data.get("melody", "")
     melody_notes = melody_input.strip().split()
 
-    # === Pad melody to multiple of 4 ===
     while len(melody_notes) % 4 != 0:
         melody_notes.append("C4")
 
-    # === Chunk into groups of 4 and predict chords ===
     melody_chunks = [melody_notes[i:i+4] for i in range(0, len(melody_notes), 4)]
     predicted_chords = []
 
@@ -50,19 +48,16 @@ def generate():
             predicted_chord = "C Major (C E G)"
         predicted_chords.append(predicted_chord)
 
-    # === Build the score ===
     score = stream.Score()
     score.metadata = metadata.Metadata()
     score.metadata.title = "AI Generated Music"
     score.metadata.composer = "Aryan and Abdul's LSTM"
 
-    # Treble clef melody part
     melody_part = stream.Part()
     melody_part.append(clef.TrebleClef())
     for pitch in melody_notes:
         melody_part.append(note.Note(pitch, quarterLength=1.0))
 
-    # Bass clef chord part
     bass_part = stream.Part()
     bass_part.append(clef.BassClef())
     for chord_str in predicted_chords:
@@ -77,7 +72,6 @@ def generate():
     score.insert(0, melody_part)
     score.insert(0, bass_part)
 
-    # === Save and return MIDI ===
     with tempfile.NamedTemporaryFile(delete=False, suffix=".mid") as tmp:
         mf = midi.translate.streamToMidiFile(score)
         mf.open(tmp.name, 'wb')
@@ -87,7 +81,7 @@ def generate():
         response.headers["X-Chords"] = ", ".join(predicted_chords)
         return response
 
-# === Required for Render ===
+# === For Render.com ===
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # default to 5000 locally
+    port = int(os.environ.get("PORT", 5000))
     app.run(debug=False, host="0.0.0.0", port=port)
