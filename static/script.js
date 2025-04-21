@@ -33,9 +33,9 @@ function toggleTheme() {
       document.getElementById("downloadSection").style.display = "block";
   
       const chordsText = response.headers.get("X-Chords");
-      if (chordsText) {
-        document.getElementById("chordText").innerText = `🎶 Best chords: ${chordsText}`;
-      }
+    //   if (chordsText) {
+    //     document.getElementById("chordText").innerText = `🎶 Best chords: ${chordsText}`;
+    //   }
     } else {
       alert("Error generating MIDI.");
     }
