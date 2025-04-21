@@ -1,0 +1,231 @@
+    body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #0e0e0e;
+    color: #f0f0f0;
+    overflow-x: hidden;
+    transition: background 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    position: relative;
+    font-size: 0.7rem;
+  }
+  #chordText {
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: #ccc;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  
+  video#bgVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    z-index: -2;
+    filter: brightness(0.25);
+  }
+  
+  .navbar {
+    width: 100%;
+    padding: 1rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.9);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    box-sizing: border-box;
+  }
+  
+  .navbar .logo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar a:hover {
+    color: #00C6FF;
+  }
+  
+  .container {
+    max-width: 360px;
+    width: 60%;
+    margin-top: 120px;
+    padding: 0.8rem 1.2rem;
+    background: rgba(0, 0, 0, 0.65);
+    border-radius: 14px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.4);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+  }  
+  
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+  
+  p {
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-bottom: 1rem;
+  }
+  
+  textarea {
+    width: 100%;
+    margin-top: 0.6rem;
+    padding: 0.35rem;
+    font-size: 0.65rem;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.05);
+    color: #f0f0f0;
+    border: 1px solid rgba(255,255,255,0.1);
+    resize: none;
+    min-height: 52px;
+    text-align: left;
+  }
+  
+  textarea:focus {
+    outline: none;
+    border-color: #00C6FF;
+    box-shadow: 0 0 0 4px rgba(0, 198, 255, 0.25);
+  }
+  
+  /* Floating Tile */
+  .floating-tile {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: #f0f0f0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    animation: floatTile 6s ease-in-out infinite;
+    z-index: 1000;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+  
+  .floating-tile:hover {
+    transform: scale(1.05) translateY(-6px);
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  @keyframes floatTile {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0); }
+  }
+  
+  .apple-button {
+    margin-top: 1rem;
+    padding: 0.8rem 2.2rem;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    color: #f0f0f0;
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .apple-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+  }
+  
+  .apple-button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    transition: all 0.2s ease;
+  }
+  
+  .apple-button:focus-visible {
+    outline: none;
+    border: 1px solid #00c6ff;
+    box-shadow: 0 0 0 4px rgba(0, 198, 255, 0.25);
+  }
+  
+  .chord-display {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ddd;
+    animation: fadeInUp 0.8s ease;
+  }
+  
+  .footer {
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem;
+    background-color: black;
+    color: #aaa;
+    width: 100%;
+    margin-top: auto;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+  }
+  
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes slideInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }

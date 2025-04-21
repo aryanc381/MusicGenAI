@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Melody to MIDI Generator</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/png" />
+  
+  <!-- Fonts and Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body class="dark-mode">
+
+  <!-- Background Video -->
+  <video autoplay muted loop id="bgVideo">
+    <source src="{{ url_for('static', filename='music_visual.mp4') }}" type="video/mp4">
+  </video>
+  <!-- Header -->
+  <header class="navbar">
+    <div class="logo">MelodyGenAI</div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main UI -->
+  <main class="container">
+    <h1>Melody to MIDI Generator</h1>
+    <p>Enter melody notes (like <code>C4 D4 E4 F4</code>) and receive a harmonized MIDI file.</p>
+
+    <textarea id="melodyInput" placeholder="Enter melody notes here..."></textarea>
+    <button class="apple-button" onclick="generateMIDI()">Generate MIDI</button>
+
+    <div id="chordText" class="chord-display"></div>
+
+    <div id="downloadSection" style="display: none;">
+      <a id="downloadLink" class="apple-button" href="#" download="melody.mid">Download MIDI</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    &copy; 2024 MelodyMIDI. Built by Aryan Chauhan & Abdulqadir Kayamkhani.
+  </footer>
+</body>
+</html>
