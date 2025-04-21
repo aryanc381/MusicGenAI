@@ -14,24 +14,30 @@ note_encoder_path = "model/note_encoder.pkl"
 chord_encoder_path = "model/chord_encoder.pkl"
 
 model = load_model(model_path)
+
 with open(note_encoder_path, "rb") as f:
     note_encoder = pickle.load(f)
+
 with open(chord_encoder_path, "rb") as f:
     chord_encoder = pickle.load(f)
 
+# === Home Route ===
 @app.route("/")
 def index():
     return render_template("index.html")
 
+# === Melody-to-MIDI Route ===
 @app.route("/generate", methods=["POST"])
 def generate():
     data = request.get_json()
     melody_input = data.get("melody", "")
     melody_notes = melody_input.strip().split()
 
+    # Pad melody to multiple of 4
     while len(melody_notes) % 4 != 0:
         melody_notes.append("C4")
 
+    # Predict chords for chunks of 4 notes
     melody_chunks = [melody_notes[i:i+4] for i in range(0, len(melody_notes), 4)]
     predicted_chords = []
 
@@ -48,16 +54,19 @@ def generate():
             predicted_chord = "C Major (C E G)"
         predicted_chords.append(predicted_chord)
 
+    # === Create the score ===
     score = stream.Score()
     score.metadata = metadata.Metadata()
     score.metadata.title = "AI Generated Music"
     score.metadata.composer = "Aryan and Abdul's LSTM"
 
+    # Melody (Treble Clef)
     melody_part = stream.Part()
     melody_part.append(clef.TrebleClef())
     for pitch in melody_notes:
         melody_part.append(note.Note(pitch, quarterLength=1.0))
 
+    # Chords (Bass Clef)
     bass_part = stream.Part()
     bass_part.append(clef.BassClef())
     for chord_str in predicted_chords:
@@ -72,16 +81,18 @@ def generate():
     score.insert(0, melody_part)
     score.insert(0, bass_part)
 
+    # === Generate MIDI file ===
     with tempfile.NamedTemporaryFile(delete=False, suffix=".mid") as tmp:
         mf = midi.translate.streamToMidiFile(score)
         mf.open(tmp.name, 'wb')
         mf.write()
         mf.close()
+
         response = make_response(send_file(tmp.name, as_attachment=True, download_name="melody.mid"))
         response.headers["X-Chords"] = ", ".join(predicted_chords)
         return response
 
-# === For Render.com ===
+# === Run the app (with Render-compatible port) ===
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=False, host="0.0.0.0", port=port)
