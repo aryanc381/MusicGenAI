@@ -7,18 +7,19 @@
 
   <!-- Favicon -->
   <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/png" />
-  
+
   <!-- Fonts and Styles -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
-<body class="dark-mode">
 
+<body class="dark-mode">
+  
   <!-- Background Video -->
   <video autoplay muted loop id="bgVideo">
     <source src="{{ url_for('static', filename='music_visual.mp4') }}" type="video/mp4">
   </video>
+
   <!-- Header -->
   <header class="navbar">
     <div class="logo">MelodyGenAI</div>
@@ -31,20 +32,29 @@
     </nav>
   </header>
 
-  <!-- Main UI -->
+  <!-- Main Content -->
   <main class="container">
-    <h1>Melody to MIDI Generator</h1>
-    <p>Enter melody notes (like <code>C4 D4 E4 F4</code>) and receive a harmonized MIDI file.</p>
+    <h1>Upload Sheet Music Image</h1>
+    <p>Upload an image of sheet music. We’ll detect notes, predict chords, and generate a MIDI file!</p>
 
-    <textarea id="melodyInput" placeholder="Enter melody notes here..."></textarea>
-    <button class="apple-button" onclick="generateMIDI()">Generate MIDI</button>
+    <form id="uploadForm" method="POST" enctype="multipart/form-data">
+      <input type="file" name="image" accept="image/*" class="apple-button" required />
+      <button type="submit" class="apple-button">Generate MIDI</button>
+    </form>
 
-      <a id="downloadLink" class="apple-button" href="#" download="melody.mid">Download MIDI</a>
-    </div>
+    {% if chords %}
+      <div class="chord-display" id="chordText">
+        <h3>Predicted Chords:</h3>
+        <p>{{ chords }}</p>
+      </div>
+      <a href="{{ url_for('static', filename='downloads/melody.mid') }}" download="melody.mid" class="apple-button">Download MIDI</a>
+      <a href="{{ url_for('static', filename='downloads/annotated_prediction.jpg') }}" download="annotated_prediction.jpg" class="apple-button">Download Predicted Image</a>
+    {% endif %}
   </main>
 
   <footer class="footer">
     &copy; 2024 MelodyMIDI. Built by Aryan Chauhan & Abdulqadir Kayamkhani.
   </footer>
+
 </body>
 </html>
