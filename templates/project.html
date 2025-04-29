@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product - Harmonify</title>
+
+  <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --background-color: #0d0d0d;
+      --text-color: #ffffff;
+      --primary-color: #7f00ff;
+      --secondary-color: #1a1a1a;
+      --grey: #94938d;
+      --transition: all 0.4s ease;
+      --light: #d8dbe0;
+      --dark: #28292c;
+    }
+    body.light-mode {
+      --background-color: #ffffff;
+      --text-color: #0a0a0a;
+      --primary-color: #7f00ff;
+      --secondary-color: #f8f9fa;
+      --grey: #6c757d;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+      background: var(--background-color);
+      color: var(--text-color);
+      transition: var(--transition);
+    }
+    .page-wrapper {
+      width: 90%;
+      margin: 0 auto;
+    }
+    .navbar {
+      width: 100%;
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: transparent;
+      z-index: 10;
+    }
+    .container {
+      width: 90%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .nav-links a:hover {
+      color: var(--primary-color);
+    }
+    .nav-btn {
+      background: transparent;
+      border: 1px solid var(--text-color);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      color: var(--text-color);
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+    .nav-btn.highlight {
+      background: var(--primary-color);
+      color: #ffffff;
+    }
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 7rem;
+    }
+    .tagline {
+      font-size: 4rem;
+      font-weight: 800;
+      margin-bottom: 2rem;
+      color: var(--text-color);
+      line-height: 1.2;
+    }
+
+    /* ====== Toggle Switch Styling ====== */
+    .toggle-switch {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 50px;
+      height: 25px;
+      z-index: 20;
+    }
+
+    .switch-label {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: var(--dark);
+      border-radius: 20px;
+      cursor: pointer;
+      border: 2px solid var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .checkbox {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      transition: 0.3s;
+      background-color: var(--dark);
+    }
+
+    .checkbox:checked ~ .slider {
+      background-color: var(--light);
+    }
+
+    .slider::before {
+      content: "🌙";
+      position: absolute;
+      font-size: 14px;
+      top: 47%;
+      left: 3px;
+      transform: translateY(-50%);
+      transition: 0.3s;
+    }
+
+    .checkbox:checked ~ .slider::before {
+      content: "☀️";
+      left: 25px;
+    }
+    #changing-music {
+      color: var(--primary-color);
+    }
+    .custom-upload {
+      background: var(--primary-color);
+      color: white;
+      padding: 0.7rem 1rem;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      transition: background 0.3s;
+    }
+    #changing-word {
+      display: inline-block;
+      margin-left: 0.5rem;
+      font-weight: 600;
+      transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    }
+
+    .fade-out {
+      opacity: 0;
+      transform: translateY(20px); /* slight downward slide when fading */
+    }
+
+    .fade-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .custom-upload:hover {
+      background: #9d00ff;
+    }
+    #previewImage {
+      display: none;
+      margin-top: 20px;
+      max-width: 300px;
+      border-radius: 10px;
+      border: 2px solid var(--grey);
+    }
+    .credits-fixed {
+      width: 100%;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--grey);
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .chords-scrollable {
+      max-height: 250px;
+      max-width: 500px;  /* ✅ Add this line */
+      width: 90%;        /* ✅ Responsive on smaller screens */
+      margin: 1rem auto; /* ✅ Center it horizontally */
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border: 1px solid var(--grey);
+      border-radius: 12px;
+      font-size: 1.1rem;
+      color: var(--text-color);
+      line-height: 1.6;
+      text-align: center;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-color) transparent;
+    }
+
+    /* Scrollbar for Chrome/Safari/Edge */
+    .chords-scrollable::-webkit-scrollbar {
+      width: 8px;
+    }
+    .chords-scrollable::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color);
+      border-radius: 4px;
+    }
+    .chords-scrollable::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .download {
+      text-decoration: none; /* removes underline */
+      padding: 0.7rem 1.5rem;
+      border: 2px solid var(--text-color);
+      color: var(--text-color);
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      background: transparent;
+    }
+
+    .download.highlight {
+      background: var(--primary-color);
+      color: #fff;
+    }
+
+    .download:hover {
+      background: var(--text-color);
+      color: var(--background-color);
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container">
+      <div class="logo">IPPR</div>
+      <nav class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('about') }}">About Us</a>
+        <a href="{{ url_for('development') }}">Development</a>
+        <button class="nav-btn">Log In</button>
+        <button class="nav-btn highlight">Sign Up</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1 class="tagline">
+      Turn Music into <span id="changing-music">Magic</span>
+    </h1>
+
+    <form id="uploadForm" action="{{ url_for('project') }}" method="POST" enctype="multipart/form-data">
+      <div class="upload-controls">
+        <label for="file-upload" class="custom-upload">Select File</label>
+        <input id="file-upload" type="file" name="image" accept="image/*" required style="display:none;">
+    
+        <!-- Small text where filename will be displayed -->
+        <p id="fileNameDisplay" style="margin-top: 1rem; color: var(--primary-color); font-weight: 600; font-size: 1rem; display: none;"></p>
+    
+        <button type="submit" class="custom-upload" id="uploadButton">Upload and Generate</button>
+      </div>
+    </form>
+      
+
+    <img id="previewImage" src="#"/>
+
+    {% if chords %}
+    <div style="margin-top:2rem;">
+      <p><strong>Predicted Chords:</strong></p>
+      <div class="chords-scrollable">{{ chords }}</div>
+      <div style="margin-top:2rem; display:flex; gap:1rem; justify-content:center;">
+        <a href="{{ url_for('static', filename='downloads/melody.mid') }}" class="download" download>Download MIDI</a>
+        <a href="{{ url_for('static', filename='downloads/annotated_prediction.jpg') }}" class="download" download>Download Annotated Image</a>
+      </div>
+    </div>
+    {% endif %}
+  </section>
+
+  <div class="credits-fixed">
+    © 2025 Harmonify. Built by Aryan & Abdulqadir.
+  </div>
+
+  <!-- Theme Toggle Switch -->
+  <div class="toggle-switch">
+    <label class="switch-label">
+      <input type="checkbox" class="checkbox" id="theme-toggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

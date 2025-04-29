@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, flash, send_file, make_response, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for
 import os
 import pickle
 import shutil
@@ -14,8 +14,8 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.secret_key = "AIzaSyA1KSj9kxCszjq_1KE4V099WcMXUhUsgWw"
 
-UPLOAD_FOLDER = r"C:\Users\conta\Desktop\MusicGenAI\static\uploads"
-DOWNLOAD_FOLDER = r"C:\Users\conta\Desktop\MusicGenAI\static\downloads"
+UPLOAD_FOLDER = "static/uploads"
+DOWNLOAD_FOLDER = "static/downloads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
@@ -23,10 +23,10 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["DOWNLOAD_FOLDER"] = DOWNLOAD_FOLDER
 
 # === Load Models ===
-model_path = r"C:\Users\conta\Desktop\MusicGenAI\model\advanced_melody_to_chord_model.h5"
-note_encoder_path = r"C:\Users\conta\Desktop\MusicGenAI\model\note_encoder.pkl"
-chord_encoder_path = r"C:\Users\conta\Desktop\MusicGenAI\model\chord_encoder.pkl"
-yolo_model_path = r"C:\Users\conta\Desktop\MusicGenAI\model\best.pt"
+model_path = "model/advanced_melody_to_chord_model.h5"
+note_encoder_path = "model/note_encoder.pkl"
+chord_encoder_path = "model/chord_encoder.pkl"
+yolo_model_path = "model/best.pt"
 
 model = load_model(model_path)
 yolo = YOLO(yolo_model_path)
@@ -37,13 +37,11 @@ with open(chord_encoder_path, "rb") as f:
     chord_encoder = pickle.load(f)
 
 # === Utility Functions ===
-
 def split_and_detect(image_path, annotated_save_path=None):
     results = yolo.predict(source=image_path, conf=0.25, iou=0.45, save=False)[0]
 
-    # Save annotated image if needed
     if annotated_save_path:
-        annotated_img = results.plot()  # plotted image as array
+        annotated_img = results.plot()
         cv2.imwrite(annotated_save_path, annotated_img)
 
     boxes = results.boxes.xyxy.cpu().numpy()
@@ -147,9 +145,17 @@ def generate_midi_from_groups(grouped):
         return tmp.name, predicted_chords
 
 # === Routes ===
+@app.route("/")
+def home():
+    return render_template("index.html")
 
-@app.route("/", methods=["GET", "POST"])
-def index():
+@app.route("/about")
+def about():
+    return render_template("about.html")
+    
+
+@app.route("/project", methods=["GET", "POST"])
+def project():
     if request.method == "POST":
         if 'image' not in request.files:
             flash("No image file uploaded!", "danger")
@@ -164,10 +170,9 @@ def index():
         image_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
         file.save(image_path)
 
-        # Path where annotated image will be saved
         annotated_image_path = os.path.join(app.config["DOWNLOAD_FOLDER"], "annotated_prediction.jpg")
-
         measures = split_and_detect(image_path, annotated_save_path=annotated_image_path)
+
         if not measures:
             flash("No treble clefs or notes detected.", "danger")
             return redirect(request.url)
@@ -175,13 +180,16 @@ def index():
         grouped = group_notes(measures)
         midi_path, predicted_chords = generate_midi_from_groups(grouped)
 
-        # Save MIDI to static/downloads for user download
         final_midi_path = os.path.join(app.config["DOWNLOAD_FOLDER"], "melody.mid")
         shutil.copy(midi_path, final_midi_path)
 
-        return render_template("index.html", chords=", ".join(predicted_chords))
+        return render_template("project.html", chords=", ".join(predicted_chords))
 
-    return render_template("index.html")
+    return render_template("project.html")
+
+@app.route("/development")
+def development():
+    return render_template("development.html")
 
 # === Run App ===
 if __name__ == "__main__":

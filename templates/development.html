@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Development - MelodyGenAI</title>
+
+  <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body class="dark-mode" style="overflow: auto;">
+
+<div id="bgImageDark" class="background-image active"></div>
+<div id="bgImageLight" class="background-image"></div>
+
+<!-- Navbar -->
+<header class="navbar">
+  <div class="container">
+    <div class="logo">IPPR</div>
+    <nav class="nav-links">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('about') }}">About Us</a>
+      <a href="{{ url_for('project') }}">Product</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="development-hero">
+  <h1>Our Development Journey</h1>
+  <p class="tagline">From an idea to reality: how Aryan and Abdul built MelodyGenAI.</p>
+</section>
+
+<section class="development-section fade-in-section">
+  <div class="development-container">
+    <div class="text-left">
+      <h2>Problem Statement</h2>
+      <blockquote>
+        Automatic music sheet-to-MIDI conversion using AI for faster and smarter music composition.
+      </blockquote>
+      <p>
+        Automatic music sheet-to-MIDI conversion using AI for faster and smarter music composition.
+      </p>
+    </div>
+
+    <div class="image-right">
+      <img src="{{ url_for('static', filename='problem-image.png') }}" alt="Problem Statement Image">
+    </div>
+  </div>
+</section>
+
+
+<section class="development-section flowchart-section fade-in-section">
+  <div class="development-container"> 
+    <h2 class="centered-heading">How MelodyGenAI Works</h2>
+    <div class="flowchart">
+    <!-- Insert Flowchart Image Here -->
+    <img src="{{ url_for('static', filename='project-flowchart.png') }}" alt="Project Structure Flowchart">
+    </div>
+  </div>
+</section>
+
+<section class="development-section fade-in-section">
+  <div class="development-container vertical-layout">
+    <h2 class="centered-heading">Model Architectures</h2>
+
+    <div class="architecture-table">
+
+      <!-- YOLOv8 -->
+      <div class="architecture-combo">
+        <div class="architecture-float-img">
+          <img src="{{ url_for('static', filename='yolov8-architecture.png') }}" alt="YOLOv8 Architecture">
+        </div>
+        <div class="architecture-column">
+          <p class="architecture-desc">
+            YOLOv8 detects musical notes, bars, and clefs using deep CNN layers like TriConv, ELAN, MEConv and fusion modules.
+          </p>
+        </div>
+      </div>
+
+      <!-- LSTM -->
+      <div class="architecture-combo">
+        <div class="architecture-float-img">
+          <img src="{{ url_for('static', filename='lstm-architecture.png') }}" alt="LSTM Architecture">
+        </div>
+        <div class="architecture-column">
+          <p class="architecture-desc">
+            LSTM model predicts chords from note sequences using embedding layers, LSTM units, and dense-softmax output layers.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<section class="development-section tech-stack-section fade-in-section">
+  <div class="development-container"></div>
+    <h2 class="centered-heading">Our Tech Stack</h2>
+
+    <div class="tech-badges-row">
+      <div class="tech-badge">
+        🤖 Roboflow
+        <p class="tech-desc">Annotated and prepared training data for object detection models.</p>
+      </div>
+      <div class="tech-badge">
+        🐍 Python
+        <p class="tech-desc">Backend language for AI modeling, data handling, and MIDI generation.</p>
+      </div>
+    <div class="tech-badge">
+      🎯 YOLOv8
+      <p class="tech-desc">Detects musical notes, bars, and clefs from uploaded sheet images.</p>
+    </div>
+    <div class="tech-badge">
+      🧠 LSTM
+      <p class="tech-desc">Predicts accurate chord sequences based on grouped musical notes.</p>
+    </div>
+  </div>
+
+  <div class="tech-badges-row">
+    <div class="tech-badge">
+      🌐 Flask
+      <p class="tech-desc">Handles the web server, user upload system, and MIDI downloads.</p>
+    </div>
+    <div class="tech-badge">
+      ⚡ JavaScript
+      <p class="tech-desc">Adds frontend animations, theme toggling, and interactive elements.</p>
+    </div>
+    <div class="tech-badge">
+      🧱 HTML
+      <p class="tech-desc">Creates the skeleton structure of all web pages and content areas.</p>
+    </div>
+    <div class="tech-badge">
+      🎨 CSS
+      <p class="tech-desc">Manages the layout, design, responsiveness, and dark/light themes.</p>
+    </div>
+  </div>
+  <p class="centered-text">
+    Powered by Deep Learning, Computer Vision, and Web Technologies.
+  </p>
+</section>
+
+<section class="development-section usp-section fade-in-section">
+  <h2 class="centered-heading">Why Choose MelodyGenAI?</h2>
+
+  <div class="usp-table">
+    <div class="usp-column manual-side">
+      <h3>Manual Transcription</h3>
+      <ul>
+        <li>❌ Takes hours or days</li>
+        <li>❌ Requires music theory expertise</li>
+        <li>❌ Prone to human errors</li>
+        <li>❌ Only note transcription, no chord prediction</li>
+      </ul>
+    </div>
+
+    <div class="usp-column ai-side">
+      <h3>MelodyGenAI</h3>
+      <ul>
+        <li>✅ Get results within seconds</li>
+        <li>✅ No prior music knowledge needed</li>
+        <li>✅ AI precision and consistency</li>
+        <li>✅ Automatic chord prediction included</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="centered-text">
+    Bridging creativity and technology — making music transcription accessible to everyone.
+  </p>
+</section>
+
+<section class="development-section demo-section fade-in-section">
+  <div class="development-container vertical-layout">
+    <h2 class="centered-heading">See It in Action</h2>
+
+    <div class="demo-video">
+      <video controls poster="{{ url_for('static', filename='demo-screenshot.png.jpg') }}">
+        <source src="{{ url_for('static', filename='demo-video.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <p class="centered-text">
+      Upload your sheet music, let our AI process it in seconds, and download a ready-to-play MIDI file — all with one click.
+    </p>
+  </div>
+</section>
+
+<section class="development-section roadmap-section fade-in-section">
+  <div class="development-container vertical-layout">
+    <h2 class="centered-heading">Future Roadmap</h2>
+
+    <div class="roadmap-image">
+      <img src="{{ url_for('static', filename='future-roadmap.png') }}" alt="Future Roadmap">
+    </div>
+
+    <p class="centered-text">
+      An evolving journey — expanding MelodyGenAI to redefine music, creativity, and AI.
+    </p>
+  </div>
+</section>
+
+
+<section class="development-section closing-hero fade-in-section">
+  <h2>MelodyGenAI: Shaping the Future of Music</h2>
+  <p class="closing-tagline">
+    We are just getting started. The journey of MelodyGenAI is endless, as music itself is endless.
+  </p>
+</section>
+
+
+<!-- Theme Toggle Switch -->
+<div class="toggle-switch">
+  <label class="switch-label">
+    <input type="checkbox" class="checkbox" id="theme-toggle">
+    <span class="slider"></span>
+  </label>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  © 2025 MelodyGenAI. All Rights Reserved.
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<script>
+  const fadeInSections = document.querySelectorAll('.fade-in-section');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+  
+  fadeInSections.forEach(section => {
+    observer.observe(section);
+  });
+  </script>
+  
+</body>
+</html>

@@ -3,58 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Melody to MIDI Generator</title>
+  <title>MelodyGenAI</title>
 
-  <!-- Favicon -->
   <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/png" />
-
-  <!-- Fonts and Styles -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-<body class="dark-mode">
-  
-  <!-- Background Video -->
-  <video autoplay muted loop id="bgVideo">
-    <source src="{{ url_for('static', filename='music_visual.mp4') }}" type="video/mp4">
-  </video>
+<body>
 
-  <!-- Header -->
+  <!-- Background Video -->
+  <video autoplay loop id="bgVideo">
+    <source src="{{ url_for('static', filename='testvid.mp4') }}" type="video/mp4">
+  </video>
+  <!-- 🎵 Music Notes Animation Canvas -->
+  <canvas id="musicCanvas"></canvas>
+
+  <!-- Navbar -->
   <header class="navbar">
-    <div class="logo">MelodyGenAI</div>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
+    <div class="container">
+      <div class="logo">IPPR</div>
+      <nav class="nav-links"> 
+        <a href="{{ url_for('about') }}">About Us</a>
+        <a href="{{ url_for('project') }}">Product</a>
+        <a href="{{ url_for('development') }}">Development</a>
+
+      </nav>
+    </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="container">
-    <h1>Upload Sheet Music Image</h1>
-    <p>Upload an image of sheet music. We’ll detect notes, predict chords, and generate a MIDI file!</p>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>MelodyGenAI</h1>
+      <p class="tagline">
+        A generative music composer for<span id="changing-word">everyone.</span>
+      </p>
+    </div>
+  </section>
 
-    <form id="uploadForm" method="POST" enctype="multipart/form-data">
-      <input type="file" name="image" accept="image/*" class="apple-button" required />
-      <button type="submit" class="apple-button">Generate MIDI</button>
-    </form>
+  <!-- Credits Fixed at Bottom -->
+  <div class="credits-fixed">
+    <p>© 2024 Harmonify. Built by Abdul & Aryan.</p>
+  </div>
 
-    {% if chords %}
-      <div class="chord-display" id="chordText">
-        <h3>Predicted Chords:</h3>
-        <p>{{ chords }}</p>
-      </div>
-      <a href="{{ url_for('static', filename='downloads/melody.mid') }}" download="melody.mid" class="apple-button">Download MIDI</a>
-      <a href="{{ url_for('static', filename='downloads/annotated_prediction.jpg') }}" download="annotated_prediction.jpg" class="apple-button">Download Predicted Image</a>
-    {% endif %}
-  </main>
 
-  <footer class="footer">
-    &copy; 2024 MelodyMIDI. Built by Aryan Chauhan & Abdulqadir Kayamkhani.
-  </footer>
+  <!-- Theme Toggle Switch -->
+  <div class="toggle-switch">
+    <label class="switch-label">
+      <!-- IMPORTANT: id="theme-toggle" added -->
+      <input type="checkbox" class="checkbox" id="theme-toggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <!-- External Script -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
 </html>
